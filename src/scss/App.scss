@@ -26,3 +26,31 @@ img {
   width: 50px;
   height: 30px;
 }
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: white;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.ant-carousel .slick-list .slick-slide.slick-active {
+  background-color: black;
+}
+
+.modal-prices {
+
+}
+
+.add-to-cart-button {
+  text-align: center
+}
+
+// .ant-comment {
+//   display: inline-block
+// }
