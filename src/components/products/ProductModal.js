@@ -1,14 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Modal, Carousel, Select, Button, Icon, Input, Rate, List, Comment
+  Modal, Carousel, Select, Button, Icon, Input, Rate, List, Comment, Divider, notification
 } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview, reviews }) => {
+const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview, reviews, cartId }) => {
 
+  const [size, setSize] = useState(null);
+  const [color, setColor] = useState(null);
+  const [cartError, setCartError] = useState("");
   const { product_id, name, description, price, discounted_price, image, image_2, thumbnail } = product;
+  
+  const sizeOnChange = (value) => {
+    setSize(value);
+  }
+
+  const colorOnChange = (value) => {
+    setColor(value);
+  }
+
+  const addProductToCart = async() => {
+    if (!size || !color){
+      setCartError("Please pick a size and color");
+    } else {
+      setCartError("");
+      let product =
+        {
+          cart_id: cartId,
+          product_id,
+          attributes: `${size}, ${color}`
+        }
+        const response = await addToCart(product);
+        handleResponse(response);
+    }
+  }
+
+  const handleResponse = (response) => {
+    if (response.type === 'ADD_TO_CART_SUCCESS'){
+      handleCancel();
+      notification.open({
+        message: 'Added to cart',
+        icon: <Icon type="smile" style={{ color: '#108ee9' }} />
+      });
+    }
+  }
+
+  const clearState = () => {
+    setColor(null);
+    setSize(null);
+  }
+
   return (
     <Modal
       visible={visible}
@@ -16,6 +59,7 @@ const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview,
       onCancel={handleCancel}
       footer={null}
       width={700}
+      afterClose={clearState}
     >
       <div>
       <div style={{ width: '30%', float: 'left'}}>
@@ -45,8 +89,10 @@ const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview,
         </span>
         <h5>{description}</h5>
         <Select
-          placeholder="Select a Color"
+          placeholder="Color"
           style={{ width: '30%'}}
+          onChange={colorOnChange}
+          value={color ? color : undefined}
         >
           <Option value="black">Black</Option>
           <Option value="white">White</Option>
@@ -57,8 +103,10 @@ const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview,
         </Select>
 
         <Select
-          placeholder="Select a Size"
+          placeholder="Size"
           style={{ width: '30%',  margin: '5%'}}
+          onChange={sizeOnChange}
+          value={size ? size : undefined}
         >
           <Option value="s">S</Option>
           <Option value="m">M</Option>
@@ -66,10 +114,11 @@ const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview,
           <Option value="xl">XL</Option>
           <Option value="xxl">XXL</Option>
         </Select>
+        {cartError && <span style={{ color: 'red', fontSize: '10px'}}><br />{cartError}</span>}
         <br />
         <Button key="add"
         type="primary"
-        onClick={addToCart}
+        onClick={addProductToCart}
         className="add-to-cart-button"
         >
         Add to cart<Icon type="shopping-cart" />
@@ -91,9 +140,8 @@ const ProductModal = ({ visible, handleCancel, product, addToCart, submitReview,
         Submit Review
       </Button>
       <br /><br />
-        <hr />
+      <h4><Divider>Reviews</Divider></h4>
         <div style={{ height: '300px', width: '60%', margin: 'auto', overflow: 'scroll'}}>
-        <h4 style={{ textAlign: 'center'}}>Reviews</h4>
         <List
           dataSource={reviews}
           itemLayout="horizontal"
