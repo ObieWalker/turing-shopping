@@ -22,10 +22,8 @@ export const addToCart = (product) => {
     const promise = cartRequests.addToCart(product)
     const { ok, response, error } = await asyncHandler(promise);
     if (ok) {
-      console.log("response>>", response)
       return dispatch(addToCartSuccess(response.data));
     }
-    console.log("error>>", error.message)
     notification.open({
       message: 'Error',
       // description: ,

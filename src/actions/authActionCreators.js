@@ -1,4 +1,4 @@
-import { notification, Icon } from 'antd';
+import { notification } from 'antd';
 import actionTypes from '../constants/actionTypes';
 import { asyncHandler } from '../helpers/customMethods';
 import userRequests from "../requests/userRequests";
@@ -55,8 +55,8 @@ export const signInUser = (user) => {
 
     if (ok) {
       httpClient.setAuthorizationToken(response.data.accessToken);
-      localStorage.removeItem('token');
-      localStorage.setItem('token', response.data.accessToken);
+      localStorage.removeItem('accessToken');
+      localStorage.setItem('accessToken', response.data.accessToken);
 
       return dispatch(signInSuccess(response.data.customer));
     }
@@ -74,8 +74,8 @@ export const registerUser = (user) => {
     const { ok, response, error } = await asyncHandler(promise);
     if (ok) {
       httpClient.setAuthorizationToken(response.data.accessToken);
-      localStorage.removeItem('token');
-      localStorage.setItem('token', response.data.accessToken);
+      localStorage.removeItem('accessToken');
+      localStorage.setItem('accessToken', response.data.accessToken);
       return dispatch(registerSuccess(response.data.customer));
     }
     notification.open({
@@ -89,7 +89,7 @@ export const registerUser = (user) => {
 export const logoutUser = () => {
   return async(dispatch) => {
     httpClient.setAuthorizationToken();
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     localStorage.removeItem('persist:root')
     return dispatch(logOutUser());
   }
@@ -102,5 +102,20 @@ export const generateUniqueId = () => {
     if (ok) {
       return dispatch(generateUniqueIdSuccess(response.data.cart_id));
     }
+  }
+}
+
+export const updateInfo = (values) => {
+  return async(dispatch) => {
+    const promise = userRequests.updateInfo(values)
+    const { ok, response, error } = await asyncHandler(promise);
+    if (ok) {
+      return dispatch(signInSuccess(response.data));
+    }
+    notification.open({
+      message: 'Error',
+      description: error.response.data.error.message,
+    });
+    return dispatch(signInFailure(error.response))
   }
 }

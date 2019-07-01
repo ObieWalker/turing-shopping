@@ -1,6 +1,7 @@
 import actionTypes from '../constants/actionTypes';
 import { asyncHandler } from '../helpers/customMethods';
 import productsRequests from "../requests/productsRequests";
+import { paginatedResponse } from '../helpers/paginatedResponse';
 
 
 const getProductsSuccess = (data) => {
@@ -52,7 +53,7 @@ export const getAllProducts = (page) => {
     const { ok, response, error } = await asyncHandler(promise);
 
     if (ok) {
-      return dispatch(getProductsSuccess(response.data));
+      return dispatch(getProductsSuccess(paginatedResponse(response.data, page)));
     }
     return dispatch(getProductsFailure(error.response));
   }
@@ -81,5 +82,44 @@ export const getProductReviews = (id) => {
       return dispatch(getProductReviewsSuccess(response.data));
     }
     return dispatch(getProductReviewsFailure(error.response));
+  }
+}
+
+export const getProductsByDepartment = (id, page) => {
+  return async (dispatch) => {
+
+    const promise = productsRequests.getProductsByDepartment(id, page)
+    const { ok, response, error } = await asyncHandler(promise);
+
+    if (ok) {
+      return dispatch(getProductsSuccess(paginatedResponse(response.data, page)));
+    }
+    return dispatch(getProductsFailure(error.response));
+  }
+}
+
+export const getProductsByCategory = (id, page) => {
+  return async (dispatch) => {
+
+    const promise = productsRequests.getProductsByCategory(id, page)
+    const { ok, response, error } = await asyncHandler(promise);
+
+    if (ok) {
+      return dispatch(getProductsSuccess(paginatedResponse(response.data, page)))
+    }
+    return dispatch(getProductsFailure(error.response));
+  }
+}
+
+export const search = (value, page) => {
+  return async (dispatch) => {
+
+    const promise = productsRequests.search(value, page)
+    const { ok, response, error } = await asyncHandler(promise);
+
+    if (ok) {
+      return dispatch(getProductsSuccess(paginatedResponse(response.data, page)));
+    }
+    return dispatch(getProductsFailure(error.response));
   }
 }

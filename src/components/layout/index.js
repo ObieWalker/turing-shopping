@@ -1,15 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import {
   Layout, Menu, Badge, Icon,  Input, Button, notification
 } from 'antd';
-import { getAllProducts, getProduct, getProductReviews } from '../../actions/productsActionCreators'
+import {
+  getAllProducts,
+  getProduct,
+  getProductReviews,
+  getProductsByDepartment,
+  getProductsByCategory,
+  search
+} from '../../actions/productsActionCreators'
 import { signInUser, registerUser, logoutUser, generateUniqueId } from '../../actions/authActionCreators';
 import { addToCart } from '../../actions/cartActionCreators'
 import Categories from '../sidebar/Categories';
 import Products from '../products/index';
 import CartDrawer from '../cart/CartDrawer';
 import ProductModal from '../products/ProductModal';
+import CheckoutComponent from '../checkout/CheckoutComponent';
 import AuthModal from '../auth/AuthModal';
 import logo from '../../assets/turingshoppingimg.png';
 
@@ -19,25 +28,28 @@ const { Search } = Input;
 
 class Main extends React.Component {
   state = {
-    department: '',
+    department: null,
+    category: null,
     page: 1,
     productModalVisible: false,
     signInModalVisible: false,
-    cartVisible: false
+    cartVisible: false,
+    checkoutVisible: false,
+    searchValue: ''
   }
 
   componentDidMount = () => {
-    this.props.getAllProducts()
+    this.props.getAllProducts();
   }
 
-  changeCategory = (e) => {
-    this.setState({ department: e.item.props.value})
+  resetProducts = () => {
+    this.setProductsState();
+    this.props.getAllProducts();
   }
 
-  pageChange = (page) => {
-    this.setState({
-      page
-    })
+  changeDepartment = (e) => {
+    this.setProductsState(e.item.props.value);
+    this.props.getProductsByDepartment(e.item.props.value);
   }
 
   clickProduct = (id) => {
@@ -104,10 +116,58 @@ class Main extends React.Component {
     return await this.props.addToCart(product);
   }
 
+  chooseCategory = (value) => {
+    this.setProductsState(this.state.department, value.key, '')
+    this.props.getProductsByCategory(value.key);
+  }
+
+  searchForProduct = (value) => {
+    if (value){
+      this.setProductsState(null, null, value)
+      this.props.search(value);
+    }
+  }
+
+  openCheckoutModal = () => {
+    this.setState({
+      checkoutVisible: true
+    });
+  }
+
+  handleVisibility = () => {
+    this.setState({
+      checkoutVisible: false
+    });
+  }
+
+  setProductsState = (department = null, category = null, searchValue = '') => {
+    this.setState({
+      department,
+      category,
+      searchValue
+    })
+  }
+
+  changePage = (page) => {
+    this.setState({
+      page
+    });
+    if (this.state.category){
+      this.props.getProductsByCategory(this.state.category, page);
+    } else if (this.state.department) {
+      this.props.getProductsByDepartment(this.state.department, page);
+    } else if (this.state.searchValue){
+      this.props.search(this.state.searchValue, page)
+    } else {
+      this.props.getAllProducts(page)
+
+    }
+  }
+
   render() {
     const { products, product, reviews, user, cart } = this.props;
 
-    const loggedInUser = Object.keys(user).length ? true : ''
+    const loggedInUser = Object.keys(user).length ? true : false
     return (
       <Layout>
       <Header className="header">
@@ -116,37 +176,45 @@ class Main extends React.Component {
           mode="horizontal"
           style={{ lineHeight: '64px', textAlign: 'center' }}
         >
-          <Menu.Item key="" style={{ float: 'left'}}>
+          <Menu.Item onClick={this.resetProducts} key="logo" style={{ float: 'left'}}>
             <img src={logo} alt="ShoppingTuring"/>
           </Menu.Item>
-          <Menu.Item onClick={this.changeCategory} value="all" key="" style={{
+          <Menu.Item onClick={this.resetProducts} value="all" key="brand" style={{
             float: 'left', fontSize: '20px', fontWeight: 'bold'
             }}>
             Turing Shopping
           </Menu.Item>
-          <Menu.Item onClick={this.changeCategory} value="regional" key="1">Regional</Menu.Item>
-          <Menu.Item onClick={this.changeCategory} value="nature" key="2">Nature</Menu.Item>
-          <Menu.Item onClick={this.changeCategory} value="seasonal" key="3">Seasonal</Menu.Item>
-          <Menu.Item disabled='false' key="" style={{ float: 'right'}}>
+          <Menu.Item onClick={this.changeDepartment} value={1} key="1">Regional</Menu.Item>
+          <Menu.Item onClick={this.changeDepartment} value={2} key="2">Nature</Menu.Item>
+          <Menu.Item onClick={this.changeDepartment} value={3} key="3">Seasonal</Menu.Item>
+          <Menu.Item key="auth" style={{ float: 'right'}}>
             <Button onClick={loggedInUser ? this.logout : this.openAuthModal}
               style={{ float: 'right', marginTop: '20%'}}
               type={loggedInUser ? 'danger' : 'primary' }>
                 { loggedInUser ? 'Logout' : 'Sign In'}
             </Button>
           </Menu.Item>
-          <Menu.Item key="" 
+          <Menu.Item key="search" 
           style={{ 
             position: 'relative'
           }}
           >
             <Search
               placeholder="search for a product..."
-              onSearch={value => console.log(value)}
+              onSearch={value => this.searchForProduct(value)}
               style={{ width: 200 }}
             />
           </Menu.Item>
-          <Menu.Item style={{ float:'right', }}>
-            
+          { 
+            loggedInUser &&
+            <Menu.Item  style={{ float:'right' }}>
+              <NavLink to="/profile">
+                <Icon style={{ fontSize: '30px'}} type="user" />
+                {user.name}
+              </NavLink>
+            </Menu.Item>
+          }
+          <Menu.Item style={{ float:'right' }}>
             <Badge count={cart.cartItems.length}><Icon onClick={this.openCart} style={{ fontSize: '30px'}} type="shopping-cart" /></Badge>
           </Menu.Item>
         </Menu>
@@ -171,6 +239,7 @@ class Main extends React.Component {
               >
               <Categories
                 state={this.state.department}
+                chooseCategory={this.chooseCategory}
               />
               </SubMenu>
             </Menu>
@@ -179,7 +248,7 @@ class Main extends React.Component {
             <Products
               products={products}
               page={this.state.page}
-              onChange={this.pageChange}
+              onChange={this.changePage}
               onClick={this.clickProduct}
             />
           </Content>
@@ -204,9 +273,14 @@ class Main extends React.Component {
         onClose={this.onClose}
         visible={this.state.cartVisible}
         cartItems={cart.cartItems}
+        openCheckoutModal={this.openCheckoutModal}
+      />
+      <CheckoutComponent
+        visible={this.state.checkoutVisible}
+        handleCancel={this.handleVisibility}
       />
 
-      <Footer style={{ textAlign: 'center' }}>Turing Shopping ©2019</Footer>
+      <Footer style={{ textAlign: 'center' }}>Turing Shopping ©{new Date().getFullYear()}</Footer>
     </Layout>
     );
   }
@@ -228,6 +302,9 @@ export default connect(mapStateToProps,
     registerUser,
     logoutUser,
     generateUniqueId,
-    addToCart
+    addToCart,
+    getProductsByDepartment,
+    getProductsByCategory,
+    search
   }
 )(Main);

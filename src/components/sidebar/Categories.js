@@ -1,38 +1,37 @@
 import React from 'react';
 import { Menu } from 'antd';
 
+const Categories = ({ state, chooseCategory }) => {
+  const menuItems = [
+    <Menu.Item onClick={chooseCategory} key="1">French</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="2">Italian</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="3">Irish</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="4">Animal</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="5">Flower</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="6">Christmas</Menu.Item>,
+    <Menu.Item onClick={chooseCategory} key="7">Valentines</Menu.Item>
+  ]
 
-const Categories = ({ state }) => {
   return (
     <React.Fragment>
     {
-      state === 'regional' ?
+      state === 1 ?
       <Menu>
-        <Menu.Item key="1">French</Menu.Item>
-        <Menu.Item key="2">Italian</Menu.Item>
-        <Menu.Item key="3">Irish</Menu.Item>
+        {menuItems.slice(0,3)}
       </Menu>
       :
-      state === 'nature' ?
+      state === 2 ?
         <Menu>
-          <Menu.Item key="4">Animal</Menu.Item>
-          <Menu.Item key="5">Flower</Menu.Item>
+          {menuItems.slice(3,5)}
         </Menu>
       :
-      state === 'seasonal' ?
+      state === 3 ?
         <Menu>
-          <Menu.Item key="6">Christmas</Menu.Item>
-          <Menu.Item key="7">Valentines</Menu.Item>
+          {menuItems.slice(5,7)}
         </Menu>
       :
       <Menu>
-        <Menu.Item key="1">French</Menu.Item>
-        <Menu.Item key="2">Italian</Menu.Item>
-        <Menu.Item key="3">Irish</Menu.Item>
-        <Menu.Item key="4">Animal</Menu.Item>
-        <Menu.Item key="5">Flower</Menu.Item>
-        <Menu.Item key="6">Christmas</Menu.Item>
-        <Menu.Item key="7">Valentines</Menu.Item>
+        {menuItems.slice(0)}
       </Menu>
     }
     </React.Fragment>

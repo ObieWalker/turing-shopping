@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
+import httpClient from './helpers/httpClient';
 import './scss/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+
+const token = localStorage.getItem('accessToken');
+if (token) {
+  httpClient.setAuthorizationToken(token);
+}
 
 ReactDOM.render(
   <Provider store={store}>
