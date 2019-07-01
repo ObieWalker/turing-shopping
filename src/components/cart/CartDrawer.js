@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Table
+import { Drawer, Table, Empty, Button
 } from 'antd';
 
 const columns = [
@@ -32,6 +32,11 @@ const columns = [
     title: 'Price',
     dataIndex: 'price',
     key: 'price',
+    render: (price) =>  (
+      <span>
+        {`$${price}`}
+      </span>
+    )
   },
 ];
 
@@ -39,7 +44,10 @@ const getAttribute = (attributes, attributeIndex) => {
   return attributes.split(',')[attributeIndex]
 }
 
-const CartDrawer = ({ visible, onClose, cartItems }) => {
+const getTotalPrice = (cartItems) => 
+  cartItems.reduce((a, b) => a + parseFloat(b.price), 0).toFixed(2)
+
+const CartDrawer = ({ visible, onClose, cartItems, openCheckoutModal }) => {
 
   return (
     <Drawer
@@ -48,9 +56,33 @@ const CartDrawer = ({ visible, onClose, cartItems }) => {
       onClose={onClose}
       visible={visible}
     >
-      <Table dataSource={cartItems} columns={columns} />
+    { 
+      !cartItems.length ?
+      <Empty
+        image="http://pinnaclebooks.in/assets/images/emptycart.png"
+        imageStyle={{
+          height: 100,
+          width: 400
+        }}
+        description={
+          <span>
+            Cart is Empty
+          </span>
+        }
+      >
+      </Empty>
+      :
+      <>
+        <Table 
+          dataSource={cartItems} 
+          columns={columns}
+          rowKey='id'
+        />
 
-      <h3>Total</h3>
+        <h3>Total = ${getTotalPrice(cartItems)}</h3>
+        <Button onClick={openCheckoutModal} type="primary" style={{ textAlign: 'center', margin: '5%'}}>Checkout</Button>
+      </>
+    }
     </Drawer>
   )
 }

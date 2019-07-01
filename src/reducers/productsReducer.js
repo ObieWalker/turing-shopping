@@ -2,6 +2,8 @@ import actionTypes from '../constants/actionTypes';
 
 const initialProductsState = {
   rows: [],
+  totalProducts: 0,
+  currentPage: 1,
   error: null,
   product: {
     product_id: null,
@@ -20,9 +22,11 @@ const initialProductsState = {
 export const products = (state = initialProductsState, action) => {
   switch (action.type) {
     case actionTypes.GET_PRODUCTS_SUCCESS:
-      return Object.assign({}, state, { rows: action.data.rows }
-      );
-    
+      return Object.assign({}, state, {
+        rows: action.data.rows,
+        totalProducts: action.data.totalProducts,
+        currentPage: action.data.currentPage
+      });
     case actionTypes.GET_PRODUCT_SUCCESS:
       return Object.assign({}, state, { product: action.data }
     );

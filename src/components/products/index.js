@@ -2,14 +2,22 @@ import React from 'react';
 import { Pagination, Row, Col} from 'antd';
 import ProductCard from './ProductCard';
 
-const Products = ({ products, page, onChange, onClick }) => {
+const Products = ({ products, page, onChange, onClick, total }) => {
 
+  console.log("products>>>", products)
   return (
     <div>
-      <Pagination current={page} onChange={onChange} total={50} />
+      <Pagination
+        current={page}
+        onChange={onChange}
+        hideOnSinglePage={true}
+        total={products.totalProducts}
+        pageSize={20}
+      />
       <Row type="flex" justify="space-between">
-          { products.rows.map((product) => 
-            <Col 
+          { products.rows.map((product, key) => 
+            <Col
+              key={product.product_id}
             // xs={{ span: 6, offset: 6 }} 
             // lg={{ 
               span={8}

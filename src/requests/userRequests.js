@@ -12,5 +12,9 @@ export default {
 
   generateUniqueId(){
     return client.get(ROUTES.generateUniqueIdURL);
+  },
+
+  updateInfo(values) {
+    return client.put(ROUTES.updateInfoURL, (values));
   }
 }

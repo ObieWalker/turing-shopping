@@ -5,13 +5,13 @@ const httpClient = axios.create({
   baseURL:`${process.env.REACT_APP_API_URL}`,
 });
 
-function setAuthorizationToken(token) {
-  const defaultHeaders = this.defaults.headers.common || {};
+function setAuthorizationToken(accessToken) {
+  const headers = this.defaults.headers.common || {};
 
-  if (token) {
-    defaultHeaders.Authorization = `Token ${token}`;
+  if (accessToken) {
+    headers["USER-KEY"] = localStorage.getItem('accessToken')
   } else {
-    delete defaultHeaders.Authorization;
+    delete headers["USER-KEY"];
   }
 }
 

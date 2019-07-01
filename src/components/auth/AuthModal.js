@@ -1,9 +1,8 @@
 import React from 'react';
 import {
-  Modal, Form, Input, Icon, Checkbox, Button, Select, Tabs, notification
+  Modal, Form, Input, Icon, Button, Tabs, notification
 } from 'antd';
 
-const { Option } = Select;
 const { TabPane } = Tabs;
 
 const iconStyle = {
