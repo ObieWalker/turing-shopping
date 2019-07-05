@@ -4,6 +4,7 @@ This is my version of the Turing challenge where I am expected to consume a numb
 
 This application is a web e-commerce site that allows a user do a number of things like
 
+You can view a live version here : https://turing-sh.obinnawalker.now.sh/
 
 * Users can view all items when entering the website
 * Users can select a department and category to filter products
