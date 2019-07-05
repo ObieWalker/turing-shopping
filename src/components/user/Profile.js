@@ -5,7 +5,7 @@ import {
   Layout, Menu, Button
 } from 'antd';
 import { getRegions, getUserDetails, updateAddress } from '../../actions/shippingActionCreators';
-import { updateInfo } from '../../actions/authActionCreators';
+import { updateInfo, logoutUser } from '../../actions/authActionCreators';
 import { getOrders } from '../../actions/cartActionCreators'; 
 import ProfileForm from './ProfileForm';
 import AddressForm from './AddressForm';
@@ -64,15 +64,14 @@ class Profile extends React.Component {
               </Menu.Item>
               
               <Menu.Item key="auth" className="profile__auth-button-container">
-                <Button onClick={loggedInUser ? this.logout : this.openAuthModal}
-                  type={loggedInUser ? 'danger' : 'primary' }>
-                    { loggedInUser ? 'Logout' : 'Sign In'}
+                <Button onClick={this.props.logoutUser}
+                  type='danger'>Logout
                 </Button>
               </Menu.Item>
             </Menu>
           </Header>
           <Content className="profile__profile-content">
-            <h4>You look good today {user.name}.</h4>
+            <h4>You look good today {user.name}, why not get clothes to match.</h4>
             <Layout className="profile__layout-container">
               <Sider className="profile__sider-container" width={200}>
                 <Menu
@@ -125,6 +124,7 @@ export default connect(mapStateToProps,
     getUserDetails,
     updateInfo,
     updateAddress,
-    getOrders
+    getOrders,
+    logoutUser
   }
 )(Profile);

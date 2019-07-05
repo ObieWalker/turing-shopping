@@ -6,7 +6,6 @@ import StripeCheckout from 'react-stripe-checkout';
 import {
   createOrder, makePayment, removeItem, deleteCart
 } from '../../actions/cartActionCreators';
-import { logo } from '../../assets/turingshoppingimg.png';
 
 const { Option } = Select;
 
@@ -211,7 +210,6 @@ class CartDrawer extends React.Component {
                     label="Pay with 💳"
                     panelLabel="Make payment for {{amount}}"
                     opened={this.onOpened}
-                    image={logo}
                   />
               }
             </>

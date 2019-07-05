@@ -1,4 +1,6 @@
 import actionTypes from '../constants/actionTypes';
+import { notification } from 'antd';
+import { logoutUser } from './authActionCreators'; 
 import { asyncHandler } from '../helpers/customMethods';
 import shippingRequests from "../requests/shippingRequests";
 
@@ -63,6 +65,11 @@ export const getUserDetails = () => {
 
     if (ok) {
       return dispatch(getUserDetailsSuccess(response.data));
+    } else if (error.response.data.error){
+      notification.open({
+        message: 'Your session has expired, please log in.'
+      })
+      dispatch(logoutUser())
     }
     return dispatch(getUserDetailsFailure(error.response));
   }
