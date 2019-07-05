@@ -67,7 +67,7 @@ export const getUserDetails = () => {
       return dispatch(getUserDetailsSuccess(response.data));
     } else if (error.response.data.error){
       notification.open({
-        message: 'Your session has expired, please log in.'
+        message: 'There was a problem, please log in.'
       })
       dispatch(logoutUser())
     }
