@@ -30,19 +30,6 @@ const getUserDetailsFailure = (error) => {
   }
 }
 
-const makePurchaseSuccess = (data) => {
-  return {
-    type: actionTypes.MAKE_PURCHASE_SUCCESS,
-    data
-  }
-}
-
-const makePurchaseFailure = () => {
-  return {
-    type: actionTypes.MAKE_PURCHASE_FAILURE
-  }
-}
-
 const getShippingRegionsSuccess = (data) => {
   return {
     type: actionTypes.SHIPPING_REGIONS_SUCCESS,

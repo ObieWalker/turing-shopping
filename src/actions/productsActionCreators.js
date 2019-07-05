@@ -53,7 +53,6 @@ const productCardLoading = bool => {
   }
 }
 
-
 export const getAllProducts = (page) => {
   return async (dispatch) => {
 

@@ -28,7 +28,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 const { Search } = Input;
 
-class Main extends React.Component {
+export class Main extends React.Component {
   state = {
     department: null,
     category: null,

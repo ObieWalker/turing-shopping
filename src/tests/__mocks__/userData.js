@@ -31,3 +31,5 @@ export const users = [
   "role": "Consultant",
   "status": "suspended"
 }]
+
+export const cartId = faker.random.uuid

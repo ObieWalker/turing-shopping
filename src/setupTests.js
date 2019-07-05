@@ -3,13 +3,13 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
-
-// MOCKED MODULES
-jest.mock('httpClient', () => ({
-  get: jest.fn(),
-  put: jest.fn(),
-  delete: jest.fn(),
-  xhr: {
-    get: () => new Promise(),
-  }
-}));
+// MOCKED MODULE
+// jest.mock('httpClient', () => ({
+//   get: jest.fn(),
+//   put: jest.fn(),
+//   delete: jest.fn(),
+//   post: jest.fn(),
+//   xhr: {
+//     get: () => new Promise(),
+//   }
+// }));
