@@ -1,0 +1,22 @@
+.products {
+  &__card {
+    width: 300;
+    margin: 2%;
+    height: 300
+  }
+
+  &__card-image {
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    margin-top: 5%
+  }
+
+  &__title {
+    text-align: center
+  }
+
+  &__details {
+    font-size: 10px
+  }
+}

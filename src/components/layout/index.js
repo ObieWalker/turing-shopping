@@ -12,13 +12,15 @@ import {
   getProductsByCategory,
   search
 } from '../../actions/productsActionCreators'
-import { signInUser, registerUser, logoutUser, generateUniqueId } from '../../actions/authActionCreators';
-import { addToCart } from '../../actions/cartActionCreators'
+import {
+  signInUser, registerUser, logoutUser, generateUniqueId
+} from '../../actions/authActionCreators';
+import { addToCart } from '../../actions/cartActionCreators';
+import { getShippingRegions } from '../../actions/shippingActionCreators';
 import Categories from '../sidebar/Categories';
 import Products from '../products/index';
 import CartDrawer from '../cart/CartDrawer';
 import ProductModal from '../products/ProductModal';
-import CheckoutComponent from '../checkout/CheckoutComponent';
 import AuthModal from '../auth/AuthModal';
 import logo from '../../assets/turingshoppingimg.png';
 
@@ -91,7 +93,7 @@ class Main extends React.Component {
     if (response.type === 'LOGOUT_USER'){
       notification.open({
         message: 'You have successfully logged out!!!',
-        icon: <Icon type="smile" style={{ color: '#108ee9' }} />
+        icon: <Icon type="smile" className="layout__icon-style"/>
       });
     }
   }
@@ -174,59 +176,64 @@ class Main extends React.Component {
         <Menu
           theme="dark"
           mode="horizontal"
-          style={{ lineHeight: '64px', textAlign: 'center' }}
+          className="layout__header-menu"
         >
-          <Menu.Item onClick={this.resetProducts} key="logo" style={{ float: 'left'}}>
+          <Menu.Item onClick={this.resetProducts} key="logo"
+            className="layout__menu-logo">
             <img src={logo} alt="ShoppingTuring"/>
           </Menu.Item>
-          <Menu.Item onClick={this.resetProducts} value="all" key="brand" style={{
-            float: 'left', fontSize: '20px', fontWeight: 'bold'
-            }}>
+          <Menu.Item 
+            onClick={this.resetProducts} value="all" key="brand"
+            className="layout__menu-brand"
+          >
             Turing Shopping
           </Menu.Item>
           <Menu.Item onClick={this.changeDepartment} value={1} key="1">Regional</Menu.Item>
           <Menu.Item onClick={this.changeDepartment} value={2} key="2">Nature</Menu.Item>
           <Menu.Item onClick={this.changeDepartment} value={3} key="3">Seasonal</Menu.Item>
-          <Menu.Item key="auth" style={{ float: 'right'}}>
+          <Menu.Item key="auth" className="layout__auth-button">
             <Button onClick={loggedInUser ? this.logout : this.openAuthModal}
-              style={{ float: 'right', marginTop: '20%'}}
               type={loggedInUser ? 'danger' : 'primary' }>
                 { loggedInUser ? 'Logout' : 'Sign In'}
             </Button>
           </Menu.Item>
-          <Menu.Item key="search" 
-          style={{ 
-            position: 'relative'
-          }}
-          >
+          <Menu.Item key="search">
             <Search
               placeholder="search for a product..."
               onSearch={value => this.searchForProduct(value)}
-              style={{ width: 200 }}
+              className="layout__search-bar"
             />
           </Menu.Item>
           { 
             loggedInUser &&
-            <Menu.Item  style={{ float:'right' }}>
-              <NavLink to="/profile">
-                <Icon style={{ fontSize: '30px'}} type="user" />
-                {user.name}
-              </NavLink>
+              <Menu.Item className="layout__profile-button">
+                <NavLink to="/profile">
+                  <Icon className="layout__header-icon"
+                    style={{ fontSize: '30px'}} type="user"
+                  />
+                  {user.name}
+                </NavLink>
+              </Menu.Item>
+          }
+          { 
+            loggedInUser &&
+            <Menu.Item className="layout__cart-button">
+              <Badge count={cart.cartItems.length}>
+                <Icon onClick={this.openCart}
+                  style={{ fontSize: '30px' }} type="shopping-cart" />
+              </Badge>
             </Menu.Item>
           }
-          <Menu.Item style={{ float:'right' }}>
-            <Badge count={cart.cartItems.length}><Icon onClick={this.openCart} style={{ fontSize: '30px'}} type="shopping-cart" /></Badge>
-          </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
-          <Sider width={200} style={{ background: '#fff' }}>
+      <Content className="layout__container">
+        <Layout className="layout__main">
+          <Sider width={200} className="layout__sider">
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
+              className="layout__sider-menu"
             >
               <SubMenu
                 key="sub1"
@@ -244,7 +251,7 @@ class Main extends React.Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          <Content className="layout__products">
             <Products
               products={products}
               page={this.state.page}
@@ -261,6 +268,9 @@ class Main extends React.Component {
         reviews={reviews}
         cartId={cart.cartId}
         addToCart={this.addToCart}
+        loggedInUser={loggedInUser}
+        openLoginModal={this.openAuthModal}
+        productLoading={products.productLoading}
       />
       <AuthModal
         visible={this.state.signInModalVisible}
@@ -270,17 +280,15 @@ class Main extends React.Component {
         generateUniqueId={this.generateUniqueId}
       />
       <CartDrawer 
+        email={user.email}
         onClose={this.onClose}
         visible={this.state.cartVisible}
         cartItems={cart.cartItems}
+        cartId={cart.cartId}
         openCheckoutModal={this.openCheckoutModal}
+        getShippingRegions={this.props.getShippingRegions}
       />
-      <CheckoutComponent
-        visible={this.state.checkoutVisible}
-        handleCancel={this.handleVisibility}
-      />
-
-      <Footer style={{ textAlign: 'center' }}>Turing Shopping ©{new Date().getFullYear()}</Footer>
+      <Footer className="layout__footer">Turing Shopping ©{new Date().getFullYear()}</Footer>
     </Layout>
     );
   }
@@ -305,6 +313,7 @@ export default connect(mapStateToProps,
     addToCart,
     getProductsByDepartment,
     getProductsByCategory,
-    search
+    search,
+    getShippingRegions
   }
 )(Main);

@@ -1,0 +1,72 @@
+.layout {
+  &__icon-style {
+    color: #108ee9;
+    // font-size: 30px
+  }
+
+  &__header-menu {
+    line-height: 64px;
+    text-align: center
+  }
+
+  &__menu-logo {
+    float: left
+  }
+
+  &__menu-brand {
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__auth-button {
+    float: right
+  }
+
+  &__search-bar {
+    width: 200
+  }
+
+  &__profile-button {
+    float: right;
+    margin-top: 4px
+  }
+
+  &__icon-button {
+    font-size: 30px
+  }
+
+  &__cart-button {
+    float: right
+  }
+
+  &__container {
+    padding: 0 50px
+  }
+
+  &__main {
+    padding: 24px 0;
+    background: #fff
+  }
+
+  &__sider {
+    background: #fff
+  }
+
+  &__sider-menu {
+    height: 100%
+  }
+
+  &__products {
+    padding: 0 24px;
+    min-height: 280;
+  }
+
+  &__footer {
+    text-align: center
+  }
+
+  &__header-icon {
+    font-size: 30px
+  }
+}

@@ -1,0 +1,27 @@
+.profileform {
+
+  &__container {
+    width: 50%;
+    margin: auto;
+    background-color: grey;
+    padding: 5%;
+  }
+
+  &__form-header {
+    text-align: center
+  }
+
+  &__form {
+    width: 90%;
+    margin: auto
+  }
+
+  &__icon-style {
+    color: rgba(0,0,0,.25);
+    margin-top: 5px
+  }
+
+  &__icon-smile {
+    color: #108ee9
+  }
+}

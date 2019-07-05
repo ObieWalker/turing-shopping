@@ -1,11 +1,6 @@
 import React from 'react';
 import { Form, Input, Icon, Button, notification } from 'antd';
 
-const iconStyle = {
-  color: 'rgba(0,0,0,.25)',
-  marginTop: '5px',
-};
-
 const ProfileForm = ({ user, form, updatePersonalInfo }) => {
   
   const handleSubmit = (e) => {
@@ -30,25 +25,25 @@ const ProfileForm = ({ user, form, updatePersonalInfo }) => {
     if (response.type === 'SIGNING_IN_SUCCESS'){
       notification.open({
         message: 'Your personal information has been updated',
-        icon: <Icon type="smile" style={{ color: '#108ee9' }} />
+        icon: <Icon type="smile" className="profileform__icon-smile"/>
       });
     }
-}
+  }
   
   const { getFieldDecorator } = form;
 
   return (
-    <div style={{ width: '50%', margin: 'auto', backgroundColor: 'grey', padding: '5%'}}>
-      <h3 style={{ textAlign: 'center'}}>Personal Information.</h3>
+    <div className="profileform__container">
+      <h3 className="profileform__form-header">Personal Information.</h3>
       <Form onSubmit={handleSubmit}
-        style={{ width: '90%', margin: 'auto'}}
+        className="profileform__form"
       >
         <Form.Item>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Please input your name!' }],
             initialValue: user.name
           })(
-            <Input prefix={<Icon type="user" style={iconStyle} />} placeholder="Name" />
+            <Input prefix={<Icon type="user" className="profileform__icon-style"/>} placeholder="Name" />
           )}
         </Form.Item>
         <Form.Item>
@@ -56,14 +51,14 @@ const ProfileForm = ({ user, form, updatePersonalInfo }) => {
             rules: [{ required: true, message: 'Please input your email!' }],
             initialValue: user.email
           })(
-            <Input disabled prefix={<Icon type="mail" style={iconStyle} />} placeholder="Email Address" />
+            <Input disabled prefix={<Icon type="mail" className="profileform__icon-style"/>} placeholder="Email Address" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your password!' }],
           })(
-            <Input prefix={<Icon type="lock" style={iconStyle} />} type="password" placeholder="Password" />
+            <Input prefix={<Icon type="lock" className="profileform__icon-style"/>} type="password" placeholder="Password" />
           )}
         </Form.Item>
         <Form.Item>
