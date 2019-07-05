@@ -42,7 +42,6 @@ class Profile extends React.Component {
     const {  user, cart, shipping } = this.props;
     const { sideTabValue } = this.state
 
-    const loggedInUser = Object.keys(user).length ? true : ''
     return (
       <div>
         <Layout className="layout">
