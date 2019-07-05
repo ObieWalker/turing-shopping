@@ -9,12 +9,12 @@ const ProductCard = ({ product_id, name, description, price, discounted_price, t
     <div>
       <Card
         hoverable
-        style={{ width: 300, margin: '2%', height: 300 }}
+        className="products__card"
         onClick={() => onClick(product_id)}
-        cover={<img alt={name} style={{ height: '100px', width: '100px', margin: 'auto', marginTop: '5%'}} src={`https://backendapi.turing.com/images/products/${thumbnail}`} />}
+        cover={<img alt={name} className="products__card-image" src={`https://backendapi.turing.com/images/products/${thumbnail}`} />}
       >
-      <span style={{ fontSize: '10px'}}>
-        <Meta style={{ textAlign: 'center'}} title={name}/>
+      <span className="products__details">
+        <Meta className="products__title" title={name}/>
         <strike><Meta title={`$${price}`}/></strike>
         <Button type="primary" size='small'>
           <Meta title={`$${discounted_price}`}/>

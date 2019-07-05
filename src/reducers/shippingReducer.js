@@ -12,12 +12,13 @@ const initialShippingState = {
     region: "",
     postal_code: "",
     country: "",
-    shipping_region_id: "",
+    shipping_region_id: 1,
     day_phone: "+351323213511235",
     eve_phone: "+452436143246123",
     mob_phone: "+351323213511235",
     credit_card: "XXXXXXXX5100"
-  }
+  },
+  shipping_regions: []
 };
 
 export const shipping = (state = initialShippingState, action) => {
@@ -26,6 +27,10 @@ export const shipping = (state = initialShippingState, action) => {
       return Object.assign({}, state, { shippingRegions: action.data.slice(1) });
     case actionTypes.GET_USER_DETAILS_SUCCESS:
       return Object.assign({}, state, { shippingDetails: action.data });
+    case actionTypes.SHIPPING_REGIONS_SUCCESS:
+      return  Object.assign({},  state, {
+        shipping_regions: action.data
+      })
     default:
       return state;
   }

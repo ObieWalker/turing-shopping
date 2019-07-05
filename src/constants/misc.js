@@ -29,9 +29,16 @@ export const ROUTES = {
 
   //CART ROUTES
   addToCartURL                :              '/shoppingcart/add',
+  createOrderURL              :              '/orders',
+  makePaymentURL              :              '/stripe/charge',
+  removeItemURL               :     (id) =>  `/shoppingcart/removeProduct/${id}`,
+  deleteCartURL               :     (id) =>  `/shoppingcart/empty/${id}`,
+  getOrdersURL                :              '/orders/inCustomer', 
 
   //SHIPPING ROUTES
   getRegionsURL               :              '/shipping/regions',
   getUserDetailsURL           :              '/customer',
   updateAddressURL            :              '/customers/address',
+  // getShippingIdURL            :     (id)  => `/shipping/regions/${id}`,
+  getShippingRegionsURL       :     (id)  =>  `/shipping/regions/${id}`
 }

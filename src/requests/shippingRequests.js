@@ -12,5 +12,12 @@ export default {
 
   updateAddress(values) {
     return client.put(ROUTES.updateAddressURL, values);
+  },
+
+  getShippingId(id) {
+    return client.get(ROUTES.getShippingIdURL(id));
+  },
+  getShippingRegions(shippingRegionId) {
+    return client.get(ROUTES.getShippingRegionsURL(shippingRegionId));
   }
 }

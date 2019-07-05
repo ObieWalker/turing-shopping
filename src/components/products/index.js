@@ -4,7 +4,6 @@ import ProductCard from './ProductCard';
 
 const Products = ({ products, page, onChange, onClick, total }) => {
 
-  console.log("products>>>", products)
   return (
     <div>
       <Pagination

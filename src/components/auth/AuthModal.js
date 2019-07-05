@@ -5,10 +5,6 @@ import {
 
 const { TabPane } = Tabs;
 
-const iconStyle = {
-  color: 'rgba(0,0,0,.25)',
-  marginTop: '5px',
-};
 
 class AuthModal extends React.Component {
 
@@ -22,7 +18,7 @@ class AuthModal extends React.Component {
           notification.open({
             message: 'Sign In...',
             description: 'Success!!!',
-            icon: <Icon type="smile" style={{ color: '#108ee9' }} />
+            icon: <Icon type="smile" className="auth__success-icon" />
           });
           this.props.generateUniqueId();
         }
@@ -40,7 +36,7 @@ class AuthModal extends React.Component {
           notification.open({
             message: 'Registration Attempt',
             description: 'Success!!!',
-            icon: <Icon type="smile" style={{ color: '#108ee9' }} />
+            icon: <Icon type="smile" className="auth__success-icon" />
           });
           this.props.generateUniqueId();
         }
@@ -66,14 +62,14 @@ class AuthModal extends React.Component {
                 {getFieldDecorator('email', {
                   rules: [{ required: true, message: 'Please input your email!' }],
                 })(
-                  <Input prefix={<Icon type="mail" style={iconStyle} />} placeholder="Email Address" />
+                  <Input prefix={<Icon type="mail" className="auth__icon-style"/>} placeholder="Email Address" />
                 )}
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('password', {
                   rules: [{ required: true, message: 'Please input your password!' }],
                 })(
-                  <Input prefix={<Icon type="lock" style={iconStyle} />} type="password" placeholder="Password" />
+                  <Input prefix={<Icon type="lock" className="auth__icon-style" />} type="password" placeholder="Password" />
                 )}
               </Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -87,21 +83,21 @@ class AuthModal extends React.Component {
                 {getFieldDecorator('name', {
                   // rules: [{ required: true, message: 'Please input your name!' }],
                 })(
-                  <Input prefix={<Icon type="user" style={iconStyle} />} placeholder="Name" />
+                  <Input prefix={<Icon type="user" className="auth__icon-style"/>} placeholder="Name" />
                 )}
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('email', {
                   rules: [{ required: true, message: 'Please input your email!' }],
                 })(
-                  <Input prefix={<Icon type="mail" style={iconStyle} />} placeholder="Email Address" />
+                  <Input prefix={<Icon type="mail" className="auth__icon-style"/>} placeholder="Email Address" />
                 )}
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('password', {
                   rules: [{ required: true, message: 'Please input your password!' }],
                 })(
-                  <Input prefix={<Icon type="lock" style={iconStyle} />} type="password" placeholder="Password" />
+                  <Input prefix={<Icon type="lock" className="auth__icon-style"/>} type="password" placeholder="Password" />
                 )}
               </Form.Item>
                 <Button type="primary" htmlType="submit">

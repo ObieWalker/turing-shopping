@@ -39,7 +39,21 @@ const makePurchaseSuccess = (data) => {
 
 const makePurchaseFailure = () => {
   return {
-    type: actionTypes.GMAKE_PURCHASE_FAILURE
+    type: actionTypes.MAKE_PURCHASE_FAILURE
+  }
+}
+
+const getShippingRegionsSuccess = (data) => {
+  return {
+    type: actionTypes.SHIPPING_REGIONS_SUCCESS,
+    data
+  }
+}
+
+const getShippingRegionsFailure = (error) => {
+  return {
+    type: actionTypes.SHIPPING_REGIONS_FAILURE,
+    error
   }
 }
 
@@ -79,17 +93,14 @@ export const updateAddress = (values) => {
   }
 }
 
-export const makeCharge = (token) => {
+export const getShippingRegions = (shippingRegionId) => {
   return async (dispatch) => {
-    let response = await fetch("/charge", {
-      method: "POST",
-      headers: {"Content-Type": "text/plain"},
-      body: token.id
-    });
+    const promise = shippingRequests.getShippingRegions(shippingRegionId)
+    const { ok, response, error } = await asyncHandler(promise);
 
-    if (response.ok) {
-      return dispatch(makePurchaseSuccess(response));
+    if (ok) {
+      return dispatch(getShippingRegionsSuccess(response.data));
     }
-    return dispatch(makePurchaseFailure());
+    return dispatch(getShippingRegionsFailure(error.response));
   }
 }

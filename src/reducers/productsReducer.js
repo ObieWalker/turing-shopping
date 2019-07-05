@@ -14,8 +14,9 @@ const initialProductsState = {
     image: '',
     image_2: '',
     thumbnail: '',
-    display: 0
+    display: 0,
   },
+  productLoading: false,
   reviews: []
 };
 
@@ -28,10 +29,17 @@ export const products = (state = initialProductsState, action) => {
         currentPage: action.data.currentPage
       });
     case actionTypes.GET_PRODUCT_SUCCESS:
-      return Object.assign({}, state, { product: action.data }
+      return Object.assign({}, state, { 
+        product: action.data,
+        productLoading: false
+       }
     );
+    case actionTypes.PRODUCT_CARD_LOADING:
+      return Object.assign({}, state,
+        { productLoading: action.bool }
+      );
     case actionTypes.GET_PRODUCT_REVIEWS_SUCCESS:
-    return Object.assign({}, state, { reviews: action.data }
+      return Object.assign({}, state, { reviews: action.data }
   );
     default:
       return state;

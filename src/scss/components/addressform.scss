@@ -1,0 +1,19 @@
+.address {
+  &__icon-style {
+    color: rgba(0,0,0,.25);
+    margin-top: 5px
+  }
+
+  &__icon-smile {
+    color: #108ee9
+  }
+
+  &__form-container {
+    margin: auto;
+    width: 60%
+  }
+
+  &__address-header {
+    text-align: center
+  }
+}

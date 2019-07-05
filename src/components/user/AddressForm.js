@@ -1,12 +1,7 @@
 import React from 'react';
-import { Form, Input, Icon, Row, Col, Button, Select } from 'antd';
+import { Form, Input, Icon, Row, Col, Button, Select, notification } from 'antd';
 
 const { Option } = Select;
-
-const iconStyle = {
-  color: 'rgba(0,0,0,.25)',
-  marginTop: '5px',
-};
 
 const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
   
@@ -32,31 +27,41 @@ const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    form.validateFields((err, values) => {
+    form.validateFields(async(err, values) => {
       if (!err) {
-        updateAddress(values);
+        const response = await updateAddress(values);
+        handleNotification(response);
       }
     });
+  }
+
+  const handleNotification = (response) => {
+    if (response.type === 'GET_USER_DETAILS_SUCCESS'){
+      notification.open({
+        message: 'Your address has been updated',
+        icon: <Icon type="smile" className="address__icon-smile"/>
+      });
+    }
   }
   
   const { getFieldDecorator } = form;
 
   return (
-    <Form onSubmit={handleSubmit} style={{ margin: 'auto', width: '60%'}}>
-      <h3 style={{ textAlign: 'center' }}>Address Information.</h3>
+    <Form onSubmit={handleSubmit} className="address__form-container">
+      <h3 className="address__address-header">Address Information.</h3>
       <Form.Item>
         {getFieldDecorator('address_1', {
           rules: [{ required: true, message: 'Please input your Street Address!' }],
           initialValue: address_1
         })(
-          <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="Address Line 1" />
+          <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="Address Line 1" />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('address_2', {
           initialValue: address_2
         })(
-          <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="Address Line 2" />
+          <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="Address Line 2" />
         )}
       </Form.Item>
       <Row gutter={12}>
@@ -66,7 +71,7 @@ const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
               rules: [{ required: true, message: 'City' }],
               initialValue: city
             })(
-              <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="City" />
+              <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="City" />
             )}
           </Form.Item>
         </Col>
@@ -76,7 +81,7 @@ const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
               rules: [{ required: true, message: 'Region' }],
               initialValue: region
             })(
-              <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="Region" />
+              <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="Region" />
             )}
           </Form.Item>
         </Col>
@@ -86,7 +91,7 @@ const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
               rules: [{ required: true, message: 'Zip Code' }],
               initialValue: postal_code
             })(
-              <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="Zip Code" />
+              <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="Zip Code" />
             )}
           </Form.Item>
         </Col>
@@ -98,7 +103,7 @@ const AddressForm = ({ userAddress, regions, form, updateAddress }) => {
               rules: [{ required: true, message: 'Country' }],
               initialValue: country
             })(
-              <Input prefix={<Icon type="home" style={iconStyle} />} placeholder="Country" />
+              <Input prefix={<Icon type="home" className="address__icon-style"/>} placeholder="Country" />
             )}
           </Form.Item>
         </Col>

@@ -46,6 +46,14 @@ const getProductReviewsFailure = (error) => {
   }
 }
 
+const productCardLoading = bool => {
+  return {
+    type: actionTypes.PRODUCT_CARD_LOADING,
+    bool
+  }
+}
+
+
 export const getAllProducts = (page) => {
   return async (dispatch) => {
 
@@ -62,6 +70,7 @@ export const getAllProducts = (page) => {
 export const getProduct = (id) => {
   return async (dispatch) => {
 
+    dispatch(productCardLoading(true));
     const promise = productsRequests.getProduct(id)
     const { ok, response, error } = await asyncHandler(promise);
 
