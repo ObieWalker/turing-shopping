@@ -87,7 +87,7 @@ export const registerUser = (user) => {
 }
 
 export const logoutUser = () => {
-  return async(dispatch) => {
+  return (dispatch) => {
     httpClient.setAuthorizationToken();
     localStorage.removeItem('accessToken');
     localStorage.removeItem('persist:root')

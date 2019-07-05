@@ -52,7 +52,11 @@ describe("Shipping Action Creators", () => {
 
     test('should dispatch on error', async () => {
       httpClient.get.mockImplementation(() => Promise.reject({
-        response:  "An error occured"
+        response: {
+          data: {
+            error: "token has expired"
+          }
+        }
       }))
 
       const result = await store.dispatch(getUserDetails());
