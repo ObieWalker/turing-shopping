@@ -155,7 +155,7 @@ const ProductModal = ({
                   <span
                     className="productmodal__signin-link"
                     onClick={()=>{ handleCancel(); openLoginModal() }}
-                  >here.
+                  > here.
                   </span>
                 </h3>
               }

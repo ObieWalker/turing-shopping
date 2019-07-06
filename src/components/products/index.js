@@ -17,10 +17,10 @@ const Products = ({ products, page, onChange, onClick, total }) => {
           { products.rows.map((product, key) => 
             <Col
               key={product.product_id}
-            // xs={{ span: 6, offset: 6 }} 
-            // lg={{ 
-              span={8}
-            //  }}
+              xs={{ span: 24 }}
+              sm={{ span: 24 }}
+              md={{ span: 12 }}
+              lg={{ span: 8 }}
              >
               <ProductCard
                 product_id={product.product_id}
