@@ -228,7 +228,12 @@ export class Main extends React.Component {
       </Header>
       <Content className="layout__container">
         <Layout className="layout__main">
-          <Sider width={200} className="layout__sider">
+          <Sider
+            width={200}
+            collapsible
+            breakpoint="lg"
+            collapsedWidth="0"
+            className="layout__sider">
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
